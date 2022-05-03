@@ -17,10 +17,50 @@ img {
   max-width: 100%;
 }
 
-button[data-start], button[data-stop] {
+.switcher-btn {
   display: inline-block;
   font-size: 18px;
   font-family: inherit;
   width: 100px;
   height: 50px;
+}
+
+.timer{
+  display: flex;
+  margin-top: 30px;
+}
+.field:not(:last-child){
+  margin-right: 20px;
+}
+
+.field{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input#datetime-picker{
+  display: inline-block;
+  width: 250px;
+  height: 35px;
+  font-size: 16px;
+  padding: 1px 5px;
+  font-family: inherit;
+}
+
+.timer-btn{
+  margin-left: 5px;
+  font-family: inherit;
+  font-size: 16px;
+  display: inline-block;
+  height: 35px;
+  width: 70px;
+}
+
+.value{
+  font-size: 42px;
+}
+
+.label{
+  text-transform: uppercase;
 }
