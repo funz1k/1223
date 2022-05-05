@@ -8,11 +8,16 @@ import "notiflix/dist/notiflix-3.2.5.min.css";
 
 const refs = {
     input: document.querySelector('input#datetime-picker'),
-    startBtn: document.querySelector('.timer-btn')
+    startBtn: document.querySelector('.timer-btn'),
+    days: document.querySelector('span[data-days]'),
+    hours: document.querySelector('span[data-hours]'),
+    minutes: document.querySelector('span[data-minutes]'),
+    seconds: document.querySelector('span[data-seconds]'),
 }
 
-let convertTime;
 refs.startBtn.setAttribute('disabled', 'disabled')
+
+let isActive = false;
 
 const options = {
     enableTime: true,
@@ -25,28 +30,48 @@ const options = {
             refs.startBtn.setAttribute('disabled', 'disabled')
         } else {
             refs.startBtn.removeAttribute('disabled', 'disabled')
-            convertTime = selectedDates[0].getTime()
-            console.log(convertMs(convertTime));
+            const convertTime = selectedDates[0].getTime()
+            onStartTimer(convertTime)
         }
     },
 };
 
 flatpickr(refs.input, options);
 
-refs.startBtn.addEventListener('click', onStartTimer);
 
-function onStartTimer(e) {
-    const startTime = Date.now()
-    console.log(convertMs(startTime));
-    setInterval(() => {
-        const defaultTime = convertTime - startTime
-        const { days, hours, minutes, seconds } = convertMs(defaultTime)
-        console.log({ days, hours, minutes, seconds });
-    }, 1000);
+function onStartTimer(time) {
+    refs.startBtn.addEventListener('click', () => {
+        if (isActive) {
+            return
+        }
+        const intervalId = setInterval(() => {
+            isActive = true;
+            const startTime = Date.now();
+            const defaultTime = time - startTime;
+            console.log(defaultTime);
+            const { days, hours, minutes, seconds } = convertMs(defaultTime);
+            updateInterface({ days, hours, minutes, seconds });
+            console.log(Number(seconds));
+            onStopTimer(Number(seconds), intervalId)
+        }, 1000);
+    });
+}
+
+function onStopTimer(seconds, id) {
+    if (seconds === 0) {
+        clearInterval(id);
+    }
 }
 
 function pad(value) {
     return String(value).padStart(2, '0')
+}
+
+function updateInterface({ days, hours, minutes, seconds }) {
+    refs.days.textContent = days;
+    refs.hours.textContent = hours;
+    refs.minutes.textContent = minutes;
+    refs.seconds.textContent = seconds;
 }
 
 function convertMs(ms) {
