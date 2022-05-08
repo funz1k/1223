@@ -6,7 +6,7 @@ const refs = {
 
 let timeoutID = null;
 
-refs.stopBtn.setAttribute('disabled', 'disabled')
+refs.stopBtn.disabled = true;
 refs.startBtn.addEventListener('click', onStartSwitchColor);
 refs.stopBtn.addEventListener('click', onStopSwitchColor);
 
@@ -14,15 +14,15 @@ function onStartSwitchColor(e) {
     timeoutID = setInterval(() => {
         refs.body.style.backgroundColor = getRandomHexColor()
     }, 1000);
-    refs.startBtn.setAttribute('disabled', 'disabled')
-    refs.stopBtn.removeAttribute('disabled', 'disabled')
+    refs.startBtn.disabled = true;
+    refs.stopBtn.disabled = false;
 }
 
 
 function onStopSwitchColor(e) {
     clearInterval(timeoutID)
-    refs.stopBtn.setAttribute('disabled', 'disabled')
-    refs.startBtn.removeAttribute('disabled', 'disabled')
+    refs.startBtn.disabled = false;
+    refs.stopBtn.disabled = true;
 }
 
 function getRandomHexColor() {

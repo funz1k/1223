@@ -16,7 +16,7 @@ const refs = {
 }
 
 let isActive = false;
-refs.startBtn.setAttribute('disabled', 'disabled')
+refs.startBtn.disabled = true;
 
 const options = {
     enableTime: true,
@@ -26,9 +26,9 @@ const options = {
     onClose(selectedDates) {
         if (selectedDates[0] < options.defaultDate) {
             Notiflix.Notify.warning('Please choose a date in the future');
-            refs.startBtn.setAttribute('disabled', 'disabled')
+            refs.startBtn.disabled = true;
         } else {
-            refs.startBtn.removeAttribute('disabled', 'disabled')
+            refs.startBtn.disabled = false;
             const convertTime = selectedDates[0].getTime()
             onStartTimer(convertTime)
         }
@@ -42,6 +42,7 @@ function onStartTimer(time) {
         if (isActive) {
             return
         }
+        refs.startBtn.disabled = true;
         const intervalId = setInterval(() => {
             isActive = true;
             const startTime = Date.now();
@@ -56,6 +57,7 @@ function onStartTimer(time) {
 function onStopTimer(seconds, id) {
     if (seconds === 0) {
         clearInterval(id);
+        Notiflix.Notify.success('Timer is over');
     }
 }
 
